@@ -40,3 +40,12 @@ False
 ...     plt.imshow(image)
 ...     plt.show()
 ```
+
+Fix for mac os.
+
+See https://github.com/mabl/PyPylon/issues/18
+
+```
+install_name_tool -add_rpath /Library/Frameworks /Library/Frameworks/pylon.framework/Libraries/libpylon_TL_gige.so
+install_name_tool -add_rpath /Library/Frameworks /Library/Frameworks/pylon.framework/Libraries/libpylon_TL_usb-5.0.5.so
+```

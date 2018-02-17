@@ -209,6 +209,26 @@ cdef class Camera:
     def __repr__(self):
         return '<Camera {0} open={1}>'.format(self.device_info.friendly_name, self.opened)
 
+    def stop_grabbing(self):
+        self.camera.StopGrabbing()
+
+    def grab_one(self, unsigned int timeout=5000):
+        if not self.opened:
+            raise RuntimeError('Camera not opened')
+        cdef IImage* img
+        cdef str bits_per_pixel_prop = str(self.properties['PixelSize'])
+        cdef CGrabResultPtr ptr_grab_result
+
+        self.camera.GrabOne(timeout, ptr_grab_result)
+
+        img = &(<IImage&>ptr_grab_result)
+
+        img_data = np.frombuffer((<char*>img.GetBuffer())[:img.GetImageSize()], dtype='uint'+bits_per_pixel_prop[3:])
+
+        # TODO: How to handle multi-byte data here?
+        img_data = img_data.reshape((img.GetHeight(), -1))
+        return img_data
+
     def grab_images(self, int nr_images, unsigned int timeout=5000):
         if not self.opened:
             raise RuntimeError('Camera not opened')

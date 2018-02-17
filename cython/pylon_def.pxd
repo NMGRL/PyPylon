@@ -119,6 +119,8 @@ cdef extern from "pylon/PylonIncludes.h" namespace 'Pylon':
         bool IsOpen() except +
         IPylonDevice* DetachDevice() except +
         void StartGrabbing(size_t maxImages) except +    #FIXME: implement different strategies
+        void StopGrabbing() except +
+        IImage* GrabOne(unsigned int timeout_ms, CGrabResultPtr& grab_result) except +
         bool IsGrabbing()
         # RetrieveResult() is blocking call into C++ native SDK, allow it to be called without GIL
         bool RetrieveResult(unsigned int timeout_ms, CGrabResultPtr& grab_result) nogil except + # FIXME: Timout handling

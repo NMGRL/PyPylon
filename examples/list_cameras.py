@@ -1,9 +1,9 @@
 from __future__ import absolute_import, print_function, division
 
 import pypylon
-import matplotlib.pyplot as plt
-import tqdm
-import numpy as np
+# import matplotlib.pyplot as plt
+# import tqdm
+# import numpy as np
 
 print('Build against pylon library version:', pypylon.pylon_version.version)
 

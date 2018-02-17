@@ -46,11 +46,13 @@ def fake_detect_pylon_osx(pylon_dir='/Library/Frameworks/pylon.framework'):
         raise RuntimeError('Pylon framework not found')
 
     compiler_config = dict()
+    compiler_config['extra_compile_args'] = ['-F', os.path.dirname(pylon_dir)]
     compiler_config['include_dirs'] = [os.path.join(pylon_dir, 'Headers'),
                                        os.path.join(pylon_dir, 'Headers', 'GenICam')]
 
     compiler_config['extra_link_args'] = ['-rpath', os.path.join(*os.path.split(pylon_dir)[:-1]),
-                                          '-framework', 'pylon']
+                                          '-framework', 'pylon',
+                                          '-F', os.path.dirname(os.path.abspath(pylon_dir))]
     return compiler_config
 
 
